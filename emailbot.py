@@ -45,13 +45,13 @@ def send_email(to_email, subject, body):
             # SSL/TLS Verbindung (Port 465)
             print("Verwende SSL/TLS Verbindung (IPv4)...")
             server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30)
-            server.set_debuglevel(1)
+            # server.set_debuglevel(1)  # Für Debugging auskommentieren
             server.ehlo()
         else:
             # STARTTLS Verbindung (Port 587)
             print("Verwende STARTTLS Verbindung (IPv4)...")
             server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
-            server.set_debuglevel(1)
+            # server.set_debuglevel(1)  # Für Debugging auskommentieren
             server.ehlo()
             server.starttls()
             server.ehlo()
