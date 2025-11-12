@@ -136,8 +136,27 @@ if [ ! -f "email.csv" ]; then
     echo "test@example.com" >> email.csv
     print_success "Beispiel email.csv erstellt"
     print_warning "Bitte bearbeiten Sie email.csv und fügen Sie echte E-Mail-Adressen hinzu!"
+
+    # Deaktiviere Virtual Environment
+    deactivate 2>/dev/null || true
+
+    echo ""
+    print_error "ABBRUCH: Bitte fügen Sie echte E-Mail-Adressen in email.csv ein!"
+    print_info "Bearbeiten Sie die Datei mit: nano email.csv"
+    exit 1
 else
-    EMAIL_COUNT=$(tail -n +2 email.csv | wc -l)
+    EMAIL_COUNT=$(tail -n +2 email.csv | grep -v '^$' | wc -l)
+
+    if [ $EMAIL_COUNT -eq 0 ]; then
+        print_error "email.csv ist leer (keine E-Mail-Adressen gefunden)!"
+        print_info "Fügen Sie E-Mail-Adressen hinzu mit: nano email.csv"
+
+        # Deaktiviere Virtual Environment
+        deactivate 2>/dev/null || true
+
+        exit 1
+    fi
+
     print_success "email.csv gefunden mit $EMAIL_COUNT E-Mail-Adresse(n)"
 fi
 echo ""
@@ -148,8 +167,8 @@ echo "=========================================="
 print_info "Teste SMTP-Verbindung zu mail.danapfel-digital.de..."
 echo ""
 
-# Führe Diagnose durch
-python3 diagnose.py
+# Führe Diagnose durch (im venv)
+./venv/bin/python3 diagnose.py
 
 # Prüfe ob Diagnose erfolgreich war
 DIAGNOSE_EXIT_CODE=$?
@@ -197,7 +216,7 @@ echo ""
 print_info "Starte E-Mail-Versand..."
 echo ""
 
-python3 emailbot.py
+./venv/bin/python3 emailbot.py
 
 # Prüfe ob E-Mail-Versand erfolgreich war
 EMAIL_EXIT_CODE=$?
