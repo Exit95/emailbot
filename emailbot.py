@@ -7,9 +7,9 @@ import pandas as pd
 import random
 
 # Deine E-Mail-Konfiguration
-EMAIL_ADDRESS = 'deine.email@gmail.com'  # Deine Absender-E-Mail
-EMAIL_PASSWORD = 'dein-app-passwort'     # App-Passwort für Gmail
-SMTP_SERVER = 'smtp.gmail.com'
+EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Deine Absender-E-Mail
+EMAIL_PASSWORD = ':,30,seNDSK'     # App-Passwort für Gmail
+SMTP_SERVER = 'mail.danapfel-digital.de'
 SMTP_PORT = 587
 
 # Lade Kunden-E-Mails aus CSV
