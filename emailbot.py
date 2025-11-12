@@ -4,6 +4,7 @@ from email.mime.multipart import MIMEMultipart
 import pandas as pd
 import random
 import time
+import socket
 
 # Mailcow Server Konfiguration
 EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Absender-E-Mail
@@ -34,20 +35,29 @@ def send_email(to_email, subject, body):
         # Verbindung zum Mailcow SMTP Server
         print(f"Verbinde mit {SMTP_SERVER}:{SMTP_PORT}...")
 
+        # IPv4 erzwingen (IPv6 kann Probleme machen)
+        old_getaddrinfo = socket.getaddrinfo
+        def getaddrinfo_ipv4_only(host, port, family=0, type=0, proto=0, flags=0):
+            return old_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+        socket.getaddrinfo = getaddrinfo_ipv4_only
+
         if USE_SSL:
             # SSL/TLS Verbindung (Port 465)
-            print("Verwende SSL/TLS Verbindung...")
-            server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+            print("Verwende SSL/TLS Verbindung (IPv4)...")
+            server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30)
             server.set_debuglevel(1)
             server.ehlo()
         else:
             # STARTTLS Verbindung (Port 587)
-            print("Verwende STARTTLS Verbindung...")
-            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            print("Verwende STARTTLS Verbindung (IPv4)...")
+            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
             server.set_debuglevel(1)
             server.ehlo()
             server.starttls()
             server.ehlo()
+
+        # Socket-Funktion wiederherstellen
+        socket.getaddrinfo = old_getaddrinfo
 
         # Login mit Mailcow-Credentials
         print(f"Login als {EMAIL_ADDRESS}...")
