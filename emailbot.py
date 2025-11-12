@@ -10,6 +10,7 @@ import os
 # Mailcow Server Konfiguration
 EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Absender-E-Mail
 EMAIL_PASSWORD = ':,30,seNDSK'  # Mailbox-Passwort
+EMAIL_DISPLAY_NAME = 'Michael Danapfel - Danapfel Digital'  # Anzeigename
 
 # Auto-Erkennung: Wenn auf Mailcow-VM, verwende localhost
 # Prüfe ob Docker mit Mailcow läuft
@@ -42,7 +43,8 @@ def load_emails(file_path='email.csv'):
 # Funktion zum Versenden einer E-Mail über Mailcow
 def send_email(to_email, subject, body):
     msg = MIMEMultipart()
-    msg['From'] = EMAIL_ADDRESS
+    # Setze Absender mit Anzeigenamen
+    msg['From'] = f'"{EMAIL_DISPLAY_NAME}" <{EMAIL_ADDRESS}>'
     msg['To'] = to_email
     msg['Subject'] = subject
 
