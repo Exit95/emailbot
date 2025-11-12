@@ -102,17 +102,33 @@ def send_bulk_emails():
     print(f"\n{len(emails)} E-Mail-Adresse(n) gefunden in email.csv")
     print("=" * 60)
 
-    subject = "Test-E-Mail von Danapfel Digital"
-    body = """Hallo,
+    subject = "Ihre Website verdient mehr – modern, schnell und professionell mit Danapfel Digital"
+    body = """Sehr geehrte Damen und Herren,
 
-das ist eine Test-Nachricht von deinem E-Mail-Bot über Mailcow.
-Alles funktioniert einwandfrei!
+viele Unternehmen haben heute dasselbe Problem:
+Die Website wirkt veraltet, lädt langsam oder bringt kaum Anfragen. Dabei ist genau sie oft der erste Eindruck, den Kunden bekommen.
 
-Beste Grüße,
-Danapfel Digital Team
+Hier kommt Danapfel Digital ins Spiel.
+Wir entwickeln moderne, suchmaschinenoptimierte Webseiten, die nicht nur gut aussehen, sondern auch verkaufen. Ob Sie eine neue Website brauchen oder einfach nur zu uns wechseln möchten, beides ist möglich. Wir kümmern uns um Design, Technik, Hosting und alles, was dazu gehört.
 
----
-Falls Sie diese E-Mail nicht erhalten möchten, antworten Sie bitte mit "Abmelden"."""
+Unsere Leistungen im Überblick:
+
+• Erstellung moderner Business-Webseiten und One-Pager
+• Komplette Betreuung inkl. Hosting, Domain & SSL
+• Wartung, Updates und technischer Support
+• Optional: SEO, Social Media & Online-Werbung
+• und noch vieles mehr!
+
+Wir arbeiten transparent, fair und ohne lange Verträge, ideal für lokale Unternehmen, die Wert auf Qualität und direkten Kontakt legen.
+
+Wenn Sie möchten, schaue ich mir Ihre aktuelle Website unverbindlich an und zeige Ihnen, wie wir sie optimieren oder neu aufsetzen können.
+
+Wann passt es Ihnen für ein kurzes Gespräch?
+
+Viele Grüße
+Michael Danapfel
+Danapfel Digital
+https://danapfel-digital.de"""
 
     successful = 0
     failed = 0
