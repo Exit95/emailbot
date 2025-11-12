@@ -149,7 +149,7 @@ print_info "Teste SMTP-Verbindung zu mail.danapfel-digital.de..."
 echo ""
 
 # Führe Diagnose durch
-python diagnose.py
+python3 diagnose.py
 
 # Prüfe ob Diagnose erfolgreich war
 DIAGNOSE_EXIT_CODE=$?
@@ -197,7 +197,7 @@ echo ""
 print_info "Starte E-Mail-Versand..."
 echo ""
 
-python emailbot.py
+python3 emailbot.py
 
 # Prüfe ob E-Mail-Versand erfolgreich war
 EMAIL_EXIT_CODE=$?
