@@ -47,8 +47,14 @@ def send_email(to_email, subject, body):
     msg['From'] = f'"{EMAIL_DISPLAY_NAME}" <{EMAIL_ADDRESS}>'
     msg['To'] = to_email
     msg['Subject'] = subject
+    msg['Reply-To'] = EMAIL_ADDRESS
 
-    msg.attach(MIMEText(body, 'plain'))
+    # Anti-Spam Header
+    msg['X-Mailer'] = 'Danapfel Digital Mailer'
+    msg['X-Priority'] = '3'
+    msg['Importance'] = 'Normal'
+
+    msg.attach(MIMEText(body, 'plain', 'utf-8'))
 
     try:
         # Verbindung zum Mailcow SMTP Server
@@ -130,7 +136,11 @@ Wann passt es Ihnen für ein kurzes Gespräch?
 Viele Grüße
 Michael Danapfel
 Danapfel Digital
-https://danapfel-digital.de"""
+https://danapfel-digital.de
+
+---
+Sie erhalten diese E-Mail, weil wir glauben, dass unsere Dienstleistungen für Sie interessant sein könnten.
+Falls Sie keine weiteren E-Mails von uns erhalten möchten, antworten Sie bitte mit "Abmelden" auf diese E-Mail."""
 
     successful = 0
     failed = 0
@@ -145,8 +155,9 @@ https://danapfel-digital.de"""
             failed += 1
 
         # Pause zwischen E-Mails (außer bei der letzten)
+        # Längere Pause verhindert Spam-Erkennung
         if i < len(emails):
-            wait_time = 5
+            wait_time = random.randint(30, 60)  # 30-60 Sekunden Pause
             print(f"Warte {wait_time} Sekunden bis zur nächsten E-Mail...")
             time.sleep(wait_time)
 
