@@ -5,11 +5,28 @@ import pandas as pd
 import random
 import time
 import socket
+import os
 
 # Mailcow Server Konfiguration
 EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Absender-E-Mail
 EMAIL_PASSWORD = ':,30,seNDSK'  # Mailbox-Passwort
-SMTP_SERVER = 'mail.danapfel-digital.de'  # Mailcow SMTP Server
+
+# Auto-Erkennung: Wenn auf Mailcow-VM, verwende localhost
+# Prüfe ob Docker mit Mailcow läuft
+def detect_smtp_server():
+    try:
+        # Prüfe ob wir auf dem Mailcow-Server sind
+        result = os.popen('docker ps 2>/dev/null | grep -i mailcow').read()
+        if 'mailcow' in result.lower():
+            print("✓ Mailcow Docker erkannt - verwende localhost")
+            return 'localhost'
+    except:
+        pass
+
+    # Fallback: Verwende externen Server
+    return 'mail.danapfel-digital.de'
+
+SMTP_SERVER = detect_smtp_server()  # Auto-Erkennung
 SMTP_PORT = 465  # Port 465 für SSL/TLS (Alternative: 587 für STARTTLS)
 USE_SSL = True  # True für Port 465, False für Port 587
 

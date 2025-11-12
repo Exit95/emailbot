@@ -7,8 +7,23 @@ Testet verschiedene Verbindungsmethoden und gibt detaillierte Informationen aus
 import socket
 import smtplib
 import sys
+import os
 
-SMTP_SERVER = 'mail.danapfel-digital.de'
+# Auto-Erkennung: Wenn auf Mailcow-VM, verwende localhost
+def detect_smtp_server():
+    try:
+        # Prüfe ob wir auf dem Mailcow-Server sind
+        result = os.popen('docker ps 2>/dev/null | grep -i mailcow').read()
+        if 'mailcow' in result.lower():
+            print("✓ Mailcow Docker erkannt - verwende localhost")
+            return 'localhost'
+    except:
+        pass
+
+    # Fallback: Verwende externen Server
+    return 'mail.danapfel-digital.de'
+
+SMTP_SERVER = detect_smtp_server()
 EMAIL_ADDRESS = 'office@danapfel-digital.de'
 EMAIL_PASSWORD = ':,30,seNDSK'
 
