@@ -9,7 +9,8 @@ import time
 EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Absender-E-Mail
 EMAIL_PASSWORD = ':,30,seNDSK'  # Mailbox-Passwort
 SMTP_SERVER = 'mail.danapfel-digital.de'  # Mailcow SMTP Server
-SMTP_PORT = 587  # Port 587 für STARTTLS (Standard bei Mailcow)
+SMTP_PORT = 465  # Port 465 für SSL/TLS (Alternative: 587 für STARTTLS)
+USE_SSL = True  # True für Port 465, False für Port 587
 
 # Lade Kunden-E-Mails aus CSV
 def load_emails(file_path='email.csv'):
@@ -32,15 +33,21 @@ def send_email(to_email, subject, body):
     try:
         # Verbindung zum Mailcow SMTP Server
         print(f"Verbinde mit {SMTP_SERVER}:{SMTP_PORT}...")
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        server.set_debuglevel(1)  # Debug-Ausgabe aktivieren
-        server.ehlo()  # EHLO senden
 
-        # STARTTLS für sichere Verbindung (Standard bei Mailcow Port 587)
-        if SMTP_PORT == 587:
-            print("Aktiviere STARTTLS...")
+        if USE_SSL:
+            # SSL/TLS Verbindung (Port 465)
+            print("Verwende SSL/TLS Verbindung...")
+            server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+            server.set_debuglevel(1)
+            server.ehlo()
+        else:
+            # STARTTLS Verbindung (Port 587)
+            print("Verwende STARTTLS Verbindung...")
+            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            server.set_debuglevel(1)
+            server.ehlo()
             server.starttls()
-            server.ehlo()  # Erneut EHLO nach STARTTLS
+            server.ehlo()
 
         # Login mit Mailcow-Credentials
         print(f"Login als {EMAIL_ADDRESS}...")
@@ -110,6 +117,7 @@ if __name__ == "__main__":
     print("E-MAIL BOT - Mailcow SMTP Versand")
     print("=" * 60)
     print(f"SMTP Server: {SMTP_SERVER}:{SMTP_PORT}")
+    print(f"Verbindungstyp: {'SSL/TLS' if USE_SSL else 'STARTTLS'}")
     print(f"Absender: {EMAIL_ADDRESS}")
     print("=" * 60)
 
