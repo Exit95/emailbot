@@ -13,7 +13,7 @@ SMTP_SERVER = 'mail.danapfel-digital.de'
 SMTP_PORT = 587
 
 # Lade Kunden-E-Mails aus CSV
-def load_emails(file_path='kunden.csv'):
+def load_emails(file_path='email.csv'):
     df = pd.read_csv(file_path)
     return df['email'].tolist()  # Angenommen, Spalte heißt 'email'
 
