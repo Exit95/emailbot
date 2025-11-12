@@ -10,7 +10,7 @@ import random
 EMAIL_ADDRESS = 'office@danapfel-digital.de'  # Deine Absender-E-Mail
 EMAIL_PASSWORD = ':,30,seNDSK'     # App-Passwort für Gmail
 SMTP_SERVER = 'mail.danapfel-digital.de'
-SMTP_PORT = 587
+SMTP_PORT = 465
 
 # Lade Kunden-E-Mails aus CSV
 def load_emails(file_path='email.csv'):
