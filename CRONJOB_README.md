@@ -1,23 +1,42 @@
-# 🤖 E-Mail Bot - Automatischer Versand mit Cronjob
+# 🤖 E-Mail Bot - Automatischer Versand
 
 ## 📋 Übersicht
 
-Der E-Mail Bot versendet **täglich um 08:00 Uhr** automatisch E-Mails an alle Adressen in `email.csv`.
+Der E-Mail Bot versendet **Montags und Donnerstags um 08:00 Uhr** automatisch E-Mails an alle Adressen in `email.csv`.
+
+**Zwei Methoden verfügbar:**
+- ✅ **systemd Timer** (empfohlen für moderne Linux-Systeme)
+- ✅ **Cronjob** (klassische Methode)
 
 ---
 
 ## 🚀 Installation
 
-### 1. Cronjob einrichten
+### Methode 1: systemd Timer (EMPFOHLEN)
 
 ```bash
-cd ~/emailbot
+cd /root/emailbot
+chmod +x setup_systemd.sh
+./setup_systemd.sh
+```
+
+Das Skript:
+- ✅ Installiert systemd Service und Timer
+- ✅ Richtet den Timer ein (Montag & Donnerstag um 08:00 Uhr)
+- ✅ Erstellt das Logs-Verzeichnis
+- ✅ Bietet einen Testlauf an
+- ✅ Startet automatisch beim Booten
+
+### Methode 2: Cronjob (Klassisch)
+
+```bash
+cd /root/emailbot
 chmod +x setup_cronjob.sh
 ./setup_cronjob.sh
 ```
 
 Das Skript:
-- ✅ Richtet den Cronjob ein (täglich um 08:00 Uhr)
+- ✅ Richtet den Cronjob ein (Montag & Donnerstag um 08:00 Uhr)
 - ✅ Erstellt das Logs-Verzeichnis
 - ✅ Bietet einen Testlauf an
 
@@ -42,29 +61,61 @@ kunde3@example.com
 
 ## 📊 Verwaltung
 
-### Cronjob anzeigen
+### systemd Timer (wenn installiert)
 
+**Timer-Status anzeigen:**
+```bash
+systemctl status emailbot.timer
+```
+
+**Nächste Ausführungen anzeigen:**
+```bash
+systemctl list-timers emailbot.timer
+```
+
+**Timer stoppen:**
+```bash
+systemctl stop emailbot.timer
+```
+
+**Timer deaktivieren:**
+```bash
+systemctl disable emailbot.timer
+```
+
+**Manueller Versand (sofort):**
+```bash
+systemctl start emailbot.service
+```
+
+**Logs anzeigen (systemd):**
+```bash
+journalctl -u emailbot.service -f
+```
+
+---
+
+### Cronjob (wenn installiert)
+
+**Cronjob anzeigen:**
 ```bash
 crontab -l
 ```
 
-### Cronjob bearbeiten
-
+**Cronjob bearbeiten:**
 ```bash
 crontab -e
 ```
 
-### Cronjob entfernen
-
+**Cronjob entfernen:**
 ```bash
 crontab -e
 # Dann die Zeile mit "cron_emailbot.sh" löschen
 ```
 
-### Manueller Versand (sofort)
-
+**Manueller Versand (sofort):**
 ```bash
-cd ~/emailbot
+cd /root/emailbot
 ./cron_emailbot.sh
 ```
 

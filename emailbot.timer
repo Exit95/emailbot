@@ -1,0 +1,20 @@
+[Unit]
+Description=Danapfel Digital E-Mail Bot Timer (Montag & Donnerstag 08:00)
+Requires=emailbot.service
+
+[Timer]
+# Montags um 08:00 Uhr
+OnCalendar=Mon *-*-* 08:00:00
+
+# Donnerstags um 08:00 Uhr
+OnCalendar=Thu *-*-* 08:00:00
+
+# Persistenz: Wenn System zur geplanten Zeit aus war, beim nächsten Start nachholen
+Persistent=true
+
+# Genauigkeit (optional, Standard ist 1 Minute)
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target
+

@@ -52,7 +52,8 @@ print_success "Logs-Verzeichnis erstellt: $(pwd)/logs"
 echo ""
 
 # Prüfe ob Cronjob bereits existiert
-CRON_ENTRY="0 8 * * * /root/emailbot/cron_emailbot.sh"
+# Montag = 1, Donnerstag = 4
+CRON_ENTRY="0 8 * * 1,4 /root/emailbot/cron_emailbot.sh"
 EXISTING_CRON=$(crontab -l 2>/dev/null | grep -F "cron_emailbot.sh" || true)
 
 if [ -n "$EXISTING_CRON" ]; then
@@ -89,7 +90,7 @@ echo ""
 print_info "Aktueller Cronjob:"
 crontab -l | grep "cron_emailbot.sh"
 echo ""
-print_info "Zeitplan: Täglich um 08:00 Uhr"
+print_info "Zeitplan: Montags und Donnerstags um 08:00 Uhr"
 print_info "Skript: /root/emailbot/cron_emailbot.sh"
 print_info "Logs: /root/emailbot/logs/"
 echo ""
@@ -100,15 +101,20 @@ echo "  NÄCHSTE AUSFÜHRUNG"
 echo "=========================================="
 echo ""
 CURRENT_TIME=$(date +"%H:%M")
-CURRENT_HOUR=$(date +"%H")
+CURRENT_DAY=$(date +"%u")  # 1=Montag, 4=Donnerstag
 
-if [ "$CURRENT_HOUR" -lt 8 ]; then
-    NEXT_RUN="Heute um 08:00 Uhr"
+# Berechne nächsten Versand-Tag
+if [ "$CURRENT_DAY" -eq 1 ] && [ "$(date +%H)" -lt 8 ]; then
+    NEXT_RUN="Heute (Montag) um 08:00 Uhr"
+elif [ "$CURRENT_DAY" -eq 4 ] && [ "$(date +%H)" -lt 8 ]; then
+    NEXT_RUN="Heute (Donnerstag) um 08:00 Uhr"
+elif [ "$CURRENT_DAY" -lt 4 ]; then
+    NEXT_RUN="Donnerstag um 08:00 Uhr"
 else
-    NEXT_RUN="Morgen um 08:00 Uhr"
+    NEXT_RUN="Nächsten Montag um 08:00 Uhr"
 fi
 
-print_info "Aktuelle Zeit: $CURRENT_TIME"
+print_info "Aktuelle Zeit: $CURRENT_TIME ($(date +%A))"
 print_success "Nächster automatischer Versand: $NEXT_RUN"
 echo ""
 
@@ -140,7 +146,7 @@ echo "  SETUP ABGESCHLOSSEN"
 echo "=========================================="
 echo ""
 print_success "Cronjob erfolgreich eingerichtet!"
-print_info "E-Mails werden ab jetzt täglich um 08:00 Uhr versendet."
+print_info "E-Mails werden ab jetzt Montags und Donnerstags um 08:00 Uhr versendet."
 echo ""
 print_info "Nützliche Befehle:"
 echo "  • Cronjob anzeigen:    crontab -l"
