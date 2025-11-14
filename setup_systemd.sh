@@ -52,10 +52,10 @@ mkdir -p /root/emailbot/logs
 print_success "Logs-Verzeichnis erstellt"
 echo ""
 
-# Mache Cronjob-Skript ausführbar
-print_info "Mache cron_emailbot.sh ausführbar..."
-chmod +x /root/emailbot/cron_emailbot.sh
-print_success "cron_emailbot.sh ist ausführbar"
+# Mache Biweekly-Skript ausführbar
+print_info "Mache cron_emailbot_biweekly.sh ausführbar..."
+chmod +x /root/emailbot/cron_emailbot_biweekly.sh
+print_success "cron_emailbot_biweekly.sh ist ausführbar"
 echo ""
 
 # Kopiere systemd-Dateien
@@ -120,7 +120,7 @@ echo ""
 print_info "Zeitplan: Alle 2 Wochen Montags um 08:00 Uhr"
 print_info "Service: /etc/systemd/system/emailbot.service"
 print_info "Timer: /etc/systemd/system/emailbot.timer"
-print_info "Skript: /root/emailbot/cron_emailbot.sh"
+print_info "Skript: /root/emailbot/cron_emailbot_biweekly.sh"
 print_info "Logs: /root/emailbot/logs/"
 echo ""
 
