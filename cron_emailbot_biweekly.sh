@@ -32,7 +32,7 @@ fi
 echo "$CURRENT_DATE" > "$LAST_RUN_FILE"
 
 # Führe E-Mail-Bot aus
-/root/emailbot/cron_emailbot.sh
+/usr/bin/python3 /root/emailbot/emailbot.py
 
 exit $?
 

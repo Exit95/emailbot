@@ -3,12 +3,9 @@ Description=Danapfel Digital E-Mail Bot Timer (Alle 2 Wochen Montags 08:00)
 Requires=emailbot.service
 
 [Timer]
-# Alle 2 Wochen Montags um 08:00 Uhr
-# Startet am ersten Montag nach Installation, dann alle 14 Tage
+# Wird jeden Montag um 08:00 Uhr ausgelöst.
+# Das Skript selbst sorgt dafür, dass nur alle 14 Tage wirklich gesendet wird.
 OnCalendar=Mon *-*-* 08:00:00
-
-# Nur alle 2 Wochen ausführen (14 Tage Intervall)
-OnUnitActiveSec=14d
 
 # Persistenz: Wenn System zur geplanten Zeit aus war, beim nächsten Start nachholen
 Persistent=true
